@@ -6,5 +6,5 @@ C++ Classes, Pointers, Linked Lists, Stacks, Queues, Inheritance, Polymorphism, 
 *Note: This repository is currently being updated. More files/projects to come. Status: Added Project1
 
 To add:
-HWs 2-5
-Projects 2,3
+- HWs 2-5
+- Projects 2,3
