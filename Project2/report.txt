@@ -1,0 +1,155 @@
+Austin Zhang
+604 736 503
+
+Report
+
+The doubly linked list used in Set.h and Set.cpp has the following design characteristics:
+   - a "head" pointer that always points to the first Node in the Set
+   - a "tail" pointer that always points to the last Node in the Set
+   - a size variable of type int
+   - Nodes with the following characteristics:
+	- a variable of type ItemType to store a value
+	- a "next" pointer to point to the next Node in the set. If the node is at the end of the Set, this pointer points to nullptr
+	- a "prev" pointer to point to the previous Node in the set. If the node is at the beginning of the Set, this pointer points to nullptr
+   - is neither circular nor utilizes dummy nodes.
+
+Pseudocode:
+============= insert =============
+false if item is already there
+if empty,
+  add as first node
+  update pointers
+  increment size
+if alphabetically at front,
+  add to front
+  update pointers 
+  increment size
+if alphabetically at end,
+  add to end
+  update pointers
+  increment size
+otherwise, 
+  loop and find target position
+     break when position found
+  add to middle
+  update pointers
+  increment size
+
+============= erase =============
+false if empty or not there
+if erasing first node
+  create temp pointer to remember position
+  erase and update pointers
+  decrement size
+if erasing at the end
+  erase and update pointers appropriately
+  decrement size
+if erasing anywhere else
+  loop and find position
+     break when position is found
+  erase and update pointers
+  decrement size
+
+============= unite =============
+create temp set
+copy s1 and s2
+create temp itemtype
+repeatedly loop through s1
+  get the value at each index
+  insert value
+repeatedly loop through s2
+  get the value at each index
+  insert value
+set result equal to the temp set
+
+============= subtract =============
+create temp set
+copy s1 and s2
+create temp itemtype
+repeatedly loop through s1
+   get the value at each index
+   if s2 doesn't contain that value
+	insert into the temp set
+set result equal to temp set
+
+
+============= end of pseudocode =============
+
+Test Cases:
+---------------------
+void test()
+{
+	Set s;
+	assert(s.empty()); //test empty
+	s.insert("hi"); //insert into empty set
+	assert(s.size()==1); //test size
+	assert(!s.empty()); //test empty
+	s.insert("bye"); //insert at beginning
+	assert(s.size() == 2); //test size
+	assert(!s.empty()); //test empty
+	s.insert("x");//insert at end
+	assert(s.size() == 3);
+	assert(!s.empty());
+	assert(!s.erase("hai")); //erase something not in set
+	assert(s.erase("bye")); //test erase
+	assert(s.size() ==2);
+	assert(s.erase("hi")); //test erase
+	assert(s.size() == 1);
+	assert(s.erase("x"));//erase last item
+	assert(s.empty()); 
+	
+	Set ss;
+	ss.insert("uh oh");
+	ss.erase("uh oh"); 
+	assert(ss.empty()); //test empty after erase
+
+	Set s1;
+	
+	ItemType value;
+	s1.insert("d");
+	s1.insert("a");
+	s1.insert("e");
+	s1.insert("b");
+	s1.insert("c");
+	assert(s1.size() == 5);
+	s1.get(0, value); //test get (by changing first parameter)
+
+	Set a;
+	a.insert("2");
+	a.insert("8");
+	a.insert("3");
+	a.insert("9");
+	a.insert("5");
+	Set b;
+	b.insert("6");
+	b.insert("3");
+	b.insert("8");
+	b.insert("5");
+	b.insert("10"); 
+	
+	assert(a.contains("2") && a.contains("8") && a.contains("5") && a.contains("9")); //test contains
+
+	Set result; 
+	result.insert("45"); 
+	unite(a, b, result); //test unite
+	assert(!result.contains("45")); //initial value in result
+	
+	subtract(a, b, result);
+	assert(a.contains("2") && a.contains("9")); //test subtract
+
+	a.swap(b);
+	assert(a.contains("6") && a.contains("3") && a.contains("8") && a.contains("5")); //test swap
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
